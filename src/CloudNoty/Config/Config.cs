@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace CloudNoty.Config
 {
-    public class Config
+    public class Cfg
     {
-        public const string MYSQLCONNECTIONSTRING = "Server=;" + "Port=;" + "Database=;" + "Uid=;" + "Password=;" + "AllowUserVariables= true;" + "Convert Zero Datetime=True";
+        public const string MYSQLCONNECTIONSTRING = "Server=;" + "Port=3306;" + "Database=;" + "Uid=;" + "Password=;" + "AllowUserVariables= true;" + "Convert Zero Datetime=True";
         public const string LOCALCONFIGFILE = "cn.dat";
         public const string LOCALKEY = "";
         public MySqlConnection MYSQLCONNECTION { get; set; }
@@ -35,5 +35,6 @@ namespace CloudNoty.Config
         }
 
         public static int UID = 0;
+        public static bool LoggedIn = false;
     }
 }

@@ -11,9 +11,9 @@ namespace CloudNoty.Core.Operators
 {
     public class DoPermissions
     {
-        public async Task<Config.Config.Permissions> PermissionsCheck(string user, MySql.Data.MySqlClient.MySqlConnection msq)
+        public async Task<Config.Cfg.Permissions> PermissionsCheck(string user, MySql.Data.MySqlClient.MySqlConnection msq)
         {
-            Config.Config.Permissions permission = new Config.Config.Permissions();
+            Config.Cfg.Permissions permission = new Config.Cfg.Permissions();
 
             CloudNoty.Core.Query.QPermissions qPermissions = new CloudNoty.Core.Query.QPermissions();
 
@@ -22,7 +22,7 @@ namespace CloudNoty.Core.Operators
             if(x == null)
             {
                 MessageBox.Show("Error while getting Permissions!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                permission = Config.Config.Permissions.Null;
+                permission = Config.Cfg.Permissions.Null;
             }
 
             if(x.Contains(":"))
@@ -31,21 +31,21 @@ namespace CloudNoty.Core.Operators
 
                 string y = x.Substring(x.IndexOf(":") + 1);
 
-                Config.Config.UID = uid;
+                Config.Cfg.UID = uid;
                 
                 switch (y)
                 {
                     case "Administrator":
-                        permission = Config.Config.Permissions.Administrator;
+                        permission = Config.Cfg.Permissions.Administrator;
                         break;
                     case "Pro":
-                        permission = Config.Config.Permissions.Pro;
+                        permission = Config.Cfg.Permissions.Pro;
                         break;
                     case "Medium":
-                        permission = Config.Config.Permissions.Medium;
+                        permission = Config.Cfg.Permissions.Medium;
                         break;
                     case "Basic":
-                        permission = Config.Config.Permissions.Basic;
+                        permission = Config.Cfg.Permissions.Basic;
                         break;
                 }
 

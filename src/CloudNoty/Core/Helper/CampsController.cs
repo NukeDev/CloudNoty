@@ -9,9 +9,9 @@ namespace CloudNoty.Core.Helper
 {
     public class CampsController
     {
-        public bool Registration(TextBox Username,TextBox Password, TextBox Email)
+        public bool Registration(TextBox Username,TextBox Password, TextBox RPassword, TextBox Email)
         {
-            if (Username.Text == string.Empty || Password.Text == string.Empty || Email.Text == string.Empty)
+            if (Username.Text == string.Empty || Password.Text == string.Empty || Email.Text == string.Empty || RPassword.Text == string.Empty)
             {
                 MessageBox.Show(@"Please compile all texts!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
@@ -46,6 +46,13 @@ namespace CloudNoty.Core.Helper
                 return true;
             }
 
+            if(Password.Text != RPassword.Text)
+            {
+                MessageBox.Show(@"Password and Repeat Password do not match!", @"Error", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return true;
+            }
+
 
             return false;
 
@@ -72,6 +79,7 @@ namespace CloudNoty.Core.Helper
                     MessageBoxIcon.Error);
                 return true;
             }
+
 
             if (Username.Text.Contains(" "))
             {

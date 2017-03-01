@@ -11,7 +11,7 @@ namespace CloudNoty.Core.Operators
 {
     public class DoLogin
     {
-        public async Task<Config.Config.LoginStatus> PasswordCheck(string user, string password, MySql.Data.MySqlClient.MySqlConnection msq)
+        public async Task<Config.Cfg.LoginStatus> PasswordCheck(string user, string password, MySql.Data.MySqlClient.MySqlConnection msq)
         {
             QLogin login = new QLogin();
             PasswordEncryption Crypt = new PasswordEncryption();
@@ -19,16 +19,16 @@ namespace CloudNoty.Core.Operators
 
             if (x == null)
             {
-                return Config.Config.LoginStatus.InvalidAccount;
+                return Config.Cfg.LoginStatus.InvalidAccount;
             }
 
             if (Crypt.Verify(password, x) == true)
             {
-                return Config.Config.LoginStatus.LoggedIn;
+                return Config.Cfg.LoginStatus.LoggedIn;
             }
             else
             {
-                return Config.Config.LoginStatus.WrongPassword;
+                return Config.Cfg.LoginStatus.WrongPassword;
             }
         }
     }

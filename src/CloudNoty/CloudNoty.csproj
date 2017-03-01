@@ -58,11 +58,19 @@
     <Compile Include="Config\LocalConfig.cs" />
     <Compile Include="Core\Encryption\FileEncryption.cs" />
     <Compile Include="Core\Encryption\PasswordEncryption.cs" />
+    <Compile Include="Core\Forms\landingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Core\Forms\landingForm.Designer.cs">
+      <DependentUpon>landingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Core\Helper\CampsController.cs" />
     <Compile Include="Core\Operators\DoLogin.cs" />
     <Compile Include="Core\Operators\DoPermissions.cs" />
+    <Compile Include="Core\Operators\DoRegister.cs" />
     <Compile Include="Core\Query\QLogin.cs" />
     <Compile Include="Core\Query\QPermissions.cs" />
+    <Compile Include="Core\Query\QRegister.cs" />
     <Compile Include="mainForm.cs">
       <SubType>Form</SubType>
     </Compile>

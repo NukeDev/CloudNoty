@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,22 +12,21 @@ using CloudNoty.Config;
 using CloudNoty.Core.Query;
 using CloudNoty.Core.Operators;
 using MySql.Data.MySqlClient;
-using System.IO;
 using Newtonsoft.Json;
 
 namespace CloudNoty
 {
     public partial class mainForm : Form
     {
-        public static Config.Config StdConfig = new Config.Config();
-        public static Config.Config.LoginStatus loginStatus;
-        public static Config.Config.RegisterStatus registerStatus;
-        public static Config.Config.Permissions permissions;
+        public static Config.Cfg StdConfig = new Config.Cfg();
+        public static Config.Cfg.LoginStatus loginStatus;
+        public static Config.Cfg.RegisterStatus registerStatus;
+        public static Config.Cfg.Permissions permissions;
 
         public mainForm()
         {
             InitializeComponent();
-            StdConfig.MYSQLCONNECTION = new MySqlConnection(Config.Config.MYSQLCONNECTIONSTRING);
+            StdConfig.MYSQLCONNECTION = new MySqlConnection(Config.Cfg.MYSQLCONNECTIONSTRING);
         }
 
         private async void btn_Login_Click(object sender, EventArgs e)
@@ -53,7 +53,7 @@ namespace CloudNoty
                     }
                     finally
                     {
-                        if (loginStatus == Config.Config.LoginStatus.LoggedIn)
+                        if (loginStatus == Config.Cfg.LoginStatus.LoggedIn)
                         {
                             btn_Login.Enabled = false;
                             txtUsr.Enabled = false;
@@ -66,9 +66,13 @@ namespace CloudNoty
                             try
                             {
                                 permissions = await DoPermissions.PermissionsCheck(txtUsr.Text, StdConfig.MYSQLCONNECTION);
-                                this.Text = "CloudNoty - ID: " + Config.Config.UID.ToString() + " - Permissions: " + permissions.ToString();
-                           
-                                //await Task.Run(LoadNotys);
+                                this.Text = "CloudNoty - ID: " + Config.Cfg.UID.ToString() + " - Permissions: " + permissions.ToString();
+                                Cfg.LoggedIn = true;
+                                Core.Forms.landingForm lForm = new Core.Forms.landingForm();
+                                this.Hide();
+                                lForm.Show();
+                                
+
                             }
                             catch (Exception ex)
                             {
@@ -76,11 +80,11 @@ namespace CloudNoty
                             }
 
                         }
-                        else if (loginStatus == Config.Config.LoginStatus.WrongPassword)
+                        else if (loginStatus == Config.Cfg.LoginStatus.WrongPassword)
                         {
                             System.Windows.Forms.MessageBox.Show("The password does not match for the account " + txtUsr.Text + "." + Environment.NewLine + "Contact an administrator for more informations!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
-                        else if (loginStatus == Config.Config.LoginStatus.InvalidAccount)
+                        else if (loginStatus == Config.Cfg.LoginStatus.InvalidAccount)
                         {
                             System.Windows.Forms.MessageBox.Show("Account " + txtUsr.Text + " does not exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
@@ -100,9 +104,9 @@ namespace CloudNoty
             string EncryptedconfigText = null;
             string DecryptedconfigText = null;
 
-            if(File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + Config.Config.LOCALCONFIGFILE))
+            if(File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + Config.Cfg.LOCALCONFIGFILE))
             {
-                var file = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + Config.Config.LOCALCONFIGFILE;
+                var file = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + Config.Cfg.LOCALCONFIGFILE;
 
                 try
                 {
@@ -114,7 +118,7 @@ namespace CloudNoty
                 }
                 finally
                 {
-                    DecryptedconfigText = Core.Encryption.FileEncryption.Decrypt(EncryptedconfigText, Config.Config.LOCALKEY);
+                    DecryptedconfigText = Core.Encryption.FileEncryption.Decrypt(EncryptedconfigText, Config.Cfg.LOCALKEY);
 
                     cfg = await JsonConvert.DeserializeObjectAsync<Config.LocalConfig>(DecryptedconfigText);
 
@@ -136,7 +140,7 @@ namespace CloudNoty
         {
             try
             {
-                string file = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + Config.Config.LOCALCONFIGFILE;
+                string file = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + Config.Cfg.LOCALCONFIGFILE;
 
                 if (checkBox1.Checked == true)
                 {
@@ -151,7 +155,7 @@ namespace CloudNoty
                     cfg.RememberMe = true;
 
                     DecryptedconfigText = JsonConvert.SerializeObject(cfg);
-                    EncryptedconfigText = Core.Encryption.FileEncryption.Encrypt(DecryptedconfigText, Config.Config.LOCALKEY);
+                    EncryptedconfigText = Core.Encryption.FileEncryption.Encrypt(DecryptedconfigText, Config.Cfg.LOCALKEY);
                     
                     File.WriteAllText(file, EncryptedconfigText);
                 }
@@ -169,6 +173,36 @@ namespace CloudNoty
             }
          
          
+        }
+
+        private async void btn_Register_Click(object sender, EventArgs e)
+        {
+            Core.Helper.CampsController controller = new Core.Helper.CampsController();
+
+            bool response = controller.Registration(txtUsrR, txtPswR, txtRpswR, txtMail);
+
+            if (response)
+                return;
+
+            DoRegister register = new DoRegister();
+            try
+            {
+
+                registerStatus = await register.Register(txtUsrR.Text, txtPsw.Text, txtMail.Text, StdConfig.MYSQLCONNECTION);
+
+                if (registerStatus == Cfg.RegisterStatus.Registered)
+                {
+                    txtUsrR.Clear();
+                    txtPswR.Clear();
+                    txtRpswR.Clear();
+                    txtMail.Clear();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 
