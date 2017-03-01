@@ -16,5 +16,10 @@ namespace CloudNoty.Core.Forms
         {
             InitializeComponent();
         }
+
+        private void landingForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 }
