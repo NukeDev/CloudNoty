@@ -3,3 +3,4 @@
 # CloudNoty
 A Encrypted Cloud based Notepad
 
+Contacts: g.varriale@cloudwave.it
