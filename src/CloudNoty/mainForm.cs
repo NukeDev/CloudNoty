@@ -27,22 +27,6 @@ namespace CloudNoty
         {
             InitializeComponent();
             StdConfig.MYSQLCONNECTION = new MySqlConnection(Config.Cfg.MYSQLCONNECTIONSTRING);
-            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
-        }
-
-        System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            string dllName = args.Name.Contains(',') ? args.Name.Substring(0, args.Name.IndexOf(',')) : args.Name.Replace(".dll", "");
-
-            dllName = dllName.Replace(".", "_");
-
-            if (dllName.EndsWith("_resources")) return null;
-
-            System.Resources.ResourceManager rm = new System.Resources.ResourceManager(GetType().Namespace.ToString() + ".Properties.Resources", System.Reflection.Assembly.GetExecutingAssembly());
-
-            byte[] bytes = (byte[])rm.GetObject(dllName);
-
-            return System.Reflection.Assembly.Load(bytes);
         }
 
         private async void btn_Login_Click(object sender, EventArgs e)
@@ -86,6 +70,7 @@ namespace CloudNoty
                                 Cfg.LoggedIn = true;
                                 Core.Forms.landingForm lForm = new Core.Forms.landingForm();
                                 this.Hide();
+                                saveLocalConfig();
                                 lForm.Show();
                                 
 
@@ -154,6 +139,11 @@ namespace CloudNoty
 
         private async void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            saveLocalConfig();
+        }
+
+        void saveLocalConfig()
+        {
             try
             {
                 string file = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + Config.Cfg.LOCALCONFIGFILE;
@@ -172,7 +162,7 @@ namespace CloudNoty
 
                     DecryptedconfigText = JsonConvert.SerializeObject(cfg);
                     EncryptedconfigText = Core.Encryption.FileEncryption.Encrypt(DecryptedconfigText, Config.Cfg.LOCALKEY);
-                    
+
                     File.WriteAllText(file, EncryptedconfigText);
                 }
                 else
@@ -183,12 +173,11 @@ namespace CloudNoty
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
-         
-         
+
         }
 
         private async void btn_Register_Click(object sender, EventArgs e)
