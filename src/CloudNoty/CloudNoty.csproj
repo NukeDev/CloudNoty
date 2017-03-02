@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentFTP">
+      <HintPath>Data\dll\FluentFTP.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data">
       <HintPath>Data\dll\MySql.Data.dll</HintPath>
       <Private>True</Private>
@@ -58,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\LocalConfig.cs" />
+    <Compile Include="Config\Noty.cs" />
     <Compile Include="Core\Encryption\FileEncryption.cs" />
     <Compile Include="Core\Encryption\PasswordEncryption.cs" />
     <Compile Include="Core\Forms\landingForm.cs">
@@ -68,9 +72,11 @@
     </Compile>
     <Compile Include="Core\Helper\CampsController.cs" />
     <Compile Include="Core\Operators\DoLogin.cs" />
+    <Compile Include="Core\Operators\DoNoty.cs" />
     <Compile Include="Core\Operators\DoPermissions.cs" />
     <Compile Include="Core\Operators\DoRegister.cs" />
     <Compile Include="Core\Query\QLogin.cs" />
+    <Compile Include="Core\Query\QNoty.cs" />
     <Compile Include="Core\Query\QPermissions.cs" />
     <Compile Include="Core\Query\QRegister.cs" />
     <Compile Include="mainForm.cs">
@@ -115,6 +121,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\dll\Newtonsoft.Json.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\dll\FluentFTP.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
