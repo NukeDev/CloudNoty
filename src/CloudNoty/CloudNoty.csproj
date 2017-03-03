@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentFTP">
-      <HintPath>Data\dll\FluentFTP.dll</HintPath>
-    </Reference>
     <Reference Include="MySql.Data">
       <HintPath>Data\dll\MySql.Data.dll</HintPath>
       <Private>True</Private>
@@ -48,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,6 +68,12 @@
     <Compile Include="Core\Forms\landingForm.Designer.cs">
       <DependentUpon>landingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Core\Forms\noteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Core\Forms\noteForm.Designer.cs">
+      <DependentUpon>noteForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Core\Helper\CampsController.cs" />
     <Compile Include="Core\Operators\DoLogin.cs" />
     <Compile Include="Core\Operators\DoNoty.cs" />
@@ -77,6 +81,7 @@
     <Compile Include="Core\Operators\DoRegister.cs" />
     <Compile Include="Core\Query\QLogin.cs" />
     <Compile Include="Core\Query\QNoty.cs" />
+    <Compile Include="Core\Query\QNotyContent.cs" />
     <Compile Include="Core\Query\QPermissions.cs" />
     <Compile Include="Core\Query\QRegister.cs" />
     <Compile Include="mainForm.cs">
@@ -89,6 +94,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Core\Forms\landingForm.resx">
       <DependentUpon>landingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Core\Forms\noteForm.resx">
+      <DependentUpon>noteForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="mainForm.resx">
       <DependentUpon>mainForm.cs</DependentUpon>
@@ -121,9 +129,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\dll\Newtonsoft.Json.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Data\dll\FluentFTP.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -28,26 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.listNoty = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
-            // listView1
+            // listNoty
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listNoty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listNoty.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4});
-            this.listView1.Location = new System.Drawing.Point(12, 12);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(739, 331);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.listNoty.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listNoty.GridLines = true;
+            this.listNoty.Location = new System.Drawing.Point(12, 12);
+            this.listNoty.MultiSelect = false;
+            this.listNoty.Name = "listNoty";
+            this.listNoty.Size = new System.Drawing.Size(739, 331);
+            this.listNoty.TabIndex = 0;
+            this.listNoty.UseCompatibleStateImageBehavior = false;
+            this.listNoty.View = System.Windows.Forms.View.Details;
+            this.listNoty.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listNoty_MouseDoubleClick);
             // 
             // columnHeader1
             // 
@@ -56,22 +61,24 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "Title Noty";
+            this.columnHeader2.Width = 250;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Last Edit";
+            this.columnHeader3.Width = 225;
             // 
             // columnHeader4
             // 
             this.columnHeader4.Text = "Creation Date";
-            this.columnHeader4.Width = 102;
+            this.columnHeader4.Width = 225;
             // 
             // landingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(763, 467);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.listNoty);
             this.Name = "landingForm";
             this.Text = "landingForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.landingForm_FormClosing);
@@ -82,7 +89,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView listNoty;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;

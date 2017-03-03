@@ -20,6 +20,7 @@ namespace CloudNoty.Core.Encryption
         {
             return HashPassword(txt);
         }
+
         public bool Verify(string txt, string hash)
         {
             return ValidatePassword(txt, hash);
