@@ -35,21 +35,36 @@ namespace CloudNoty.Core.Forms
         {
             listNoty.FullRowSelect = true;
 
-            if (Config.Cfg.LoggedIn == false)
+            LoadNotys();
+        }
+
+        private async void LoadNotys()
+        {
+            try
             {
-                MessageBox.Show("You are NOT Logged in!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Environment.Exit(0);
+                if (Config.Cfg.LoggedIn == false)
+                {
+                    MessageBox.Show("You are NOT Logged in!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Environment.Exit(0);
+                }
+
+
+                Core.Operators.DoNoty doNoty = new Operators.DoNoty();
+
+                notyList = await doNoty.Notys(Config.Cfg.UID, StdConfig.MYSQLCONNECTION);
+
+                listNoty.Items.Clear();
+
+                foreach (Config.Noty noty in notyList)
+                {
+                    var lvi = new ListViewItem(new[] { noty.ID.ToString(), noty.Title.ToString(), noty.LastEdit.ToString(), noty.CreationDate.ToString() });
+                    listNoty.Items.Add(lvi);
+                }
+
             }
-
-         
-            Core.Operators.DoNoty doNoty = new Operators.DoNoty();
-
-            notyList = await doNoty.Notys(Config.Cfg.UID, StdConfig.MYSQLCONNECTION);
-
-            foreach (Config.Noty noty in notyList)
+            catch (Exception ex)
             {
-                var lvi = new ListViewItem(new[] { noty.ID.ToString(), noty.Title.ToString(), noty.LastEdit.ToString(), noty.CreationDate.ToString() });
-                listNoty.Items.Add(lvi);
+
             }
 
 
@@ -59,16 +74,30 @@ namespace CloudNoty.Core.Forms
         {
            foreach(Config.Noty noty in notyList)
             {
-                if(noty.ID.ToString() == listNoty.SelectedItems[0].Text)
+                if(listNoty.SelectedItems[0].Text != string.Empty)
                 {
-                    Query.QNotyContent getContent = new Query.QNotyContent();
-                    string data = await getContent.Notys(Convert.ToInt16(listNoty.SelectedItems[0].Text), StdConfig.MYSQLCONNECTION);
-                    noteForm noteF = new noteForm(data);
-                    noteF.Show();
+                    if (noty.ID.ToString() == listNoty.SelectedItems[0].Text)
+                    {
+                        Query.QNotyContent getContent = new Query.QNotyContent();
+                        string data = await getContent.Notys(Convert.ToInt16(listNoty.SelectedItems[0].Text), StdConfig.MYSQLCONNECTION);
+                        noty.Content = data;
+                        noteForm noteF = new noteForm(noty, false);
+                        this.Hide();
+                        noteF.ShowDialog();
+                    }
                 }
+
             }
         }
 
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Config.Noty noty = new Config.Noty();
+            noty.Autor = Config.Cfg.UID;
+            noty.EncrAlg = "RijndaelManaged";
+            noteForm noteF = new noteForm(noty, true);
+            this.Hide();
+            noteF.ShowDialog();
+        }
     }
 }

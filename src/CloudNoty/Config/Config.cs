@@ -9,10 +9,12 @@ namespace CloudNoty.Config
 {
     public class Cfg
     {
-        public const string MYSQLCONNECTIONSTRING = "Server=;" + "Port=3306;" + "Database=;" + "Uid=;" + "Password=;" + "AllowUserVariables= true;" + "Convert Zero Datetime=True";
+        public const string MYSQLCONNECTIONSTRING = "Server=;" + "Port=;" + "Database=;" + "Uid=;" + "Password=;" + "AllowUserVariables= true;" + "Convert Zero Datetime=True";
         public const string LOCALCONFIGFILE = "cn.dat";
         public const string LOCALKEY = "";
+
         public MySqlConnection MYSQLCONNECTION { get; set; }
+
         public enum LoginStatus
         {
             WrongPassword,
@@ -32,6 +34,10 @@ namespace CloudNoty.Config
             Medium,
             Basic,
             Null
+        }
+        public enum EncrAlg
+        {
+            RijndaelManaged
         }
 
         public static int UID = 0;

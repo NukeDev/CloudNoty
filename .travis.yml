@@ -1,3 +1,0 @@
-language: csharp
-solution: ./src/CloudNoty/CloudNoty.sln
-script: make build

@@ -79,9 +79,12 @@
     <Compile Include="Core\Operators\DoNoty.cs" />
     <Compile Include="Core\Operators\DoPermissions.cs" />
     <Compile Include="Core\Operators\DoRegister.cs" />
+    <Compile Include="Core\Query\QNotyDelete.cs" />
     <Compile Include="Core\Query\QLogin.cs" />
     <Compile Include="Core\Query\QNoty.cs" />
     <Compile Include="Core\Query\QNotyContent.cs" />
+    <Compile Include="Core\Query\QNotyCreate.cs" />
+    <Compile Include="Core\Query\QNotyUpdate.cs" />
     <Compile Include="Core\Query\QPermissions.cs" />
     <Compile Include="Core\Query\QRegister.cs" />
     <Compile Include="mainForm.cs">
